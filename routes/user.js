@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Router} = require("express");
 const { userSchema } = require("../validation/userValidation");
+const { activityModel } = require("../db");
 const bcrypt = require("bcrypt");
 const { userModel } = require("../db");
 const  jwt = require("jsonwebtoken");
@@ -60,6 +61,30 @@ UserRouter.post("/signin",async(req,res) => {
         res.json({
             token : token
         })
+    }
+    catch(err){
+        res.status(500).json({
+            message : "Server Crashed !"
+        })
+    }
+})
+
+UserRouter.post("/activity",async(req,res) => {
+    const {questionName,platformName,link,difficulty,solvedOn,needRevision} = req.body;
+    try{
+        const newActivity = new activityModel({
+            questionName,
+            platformName,
+            link,
+            difficulty,
+            solvedOn,
+            needRevision
+        });
+        await newActivity.save();
+        res.status(200).json({
+            message: " New Actitvity Saved Successfully !",
+            data : newActivity
+        });
     }
     catch(err){
         res.status(500).json({

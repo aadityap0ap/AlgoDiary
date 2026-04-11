@@ -11,16 +11,18 @@ const userSchema = new Schema({
 });
 
 const activitySchema = new Schema({
-    questionTag : string,
-    platformName : string,
-    link : string,
-    difficulty : string,
-    solvedOn : date,
-    needrev : date
-})
+    questionName: String,
+    platformName: String,
+    link: String,
+    difficulty: String,
+    solvedOn: Date,
+    needRevision: Boolean
+});
 
 const userModel = mongoose.model("usersTable",userSchema);
+const activityModel = mongoose.model("activityTable",activitySchema);
 
 module.exports = {
     userModel,
+    activityModel
 }
